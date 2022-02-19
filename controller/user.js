@@ -1,19 +1,22 @@
-import user from "../model/user.js";
+import User from "../model/user.js";
+import bcrypt from "bcryptjs";
 
-export const creatUser = (req, res, next) => {
-  const userInfo = {
-    name: "ahmed",
-    email: "ahmed@gmail.com",
-    age: 23,
-    password: "12345678",
-  };
-  const user = new user(userInfo);
-  user
-    .save()
-    .then(() => {
-      console.log("user created sucsess");
-    })
-    .catch(() => {
-      console.log("Somthing went wrong");
-    });
+export const createUser = (req, res, next) => {
+    const userInfo = req.body;
+    console.log(userInfo.password);
+    bcrypt
+        .hash(userInfo.password, 12)
+        .then((hasehPasswrd) => {
+            userInfo.password = hasehPasswrd;
+            const user = new User(userInfo);
+            user
+                .save()
+                .then(() => {
+                    console.log("User created successfuly");
+                })
+                .catch(() => {
+                    console.log("Something went wrong");
+                });
+        })
+        .catch((err) => console.log("ERRR", err));
 };
