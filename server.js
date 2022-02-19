@@ -1,7 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
+import userRouter from "./routes/user.js";
 
 const app = express();
+
+app.use(userRouter);
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/newshop")
@@ -14,5 +17,3 @@ mongoose
   .catch(() => {
     console.log("connect NOT-OK");
   });
-
-
